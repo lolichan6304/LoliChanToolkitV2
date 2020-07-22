@@ -3,7 +3,6 @@ import numpy as np
 import glob, os
 
 # GLOBALS
-#folder = "./House Maid/"
 database = "./database"
 compiled = "./local"
 MAX = 40000
@@ -28,7 +27,8 @@ for folder in sorted(os.listdir(database)):
             print("Folder has been merged! Moving to next Folder")
         else:
             # counter for page number
-            list_pages = sorted(list(filter(lambda x: "pic" in x, os.listdir(os.path.join(database, folder, chapter)))))
+            #list_pages = sorted(list(filter(lambda x: "pic" in x, os.listdir(os.path.join(database, folder, chapter)))))
+            list_pages = sorted(os.listdir(os.path.join(database, folder, chapter)))
             print("Number of Pages: {}".format(len(list_pages)))
             page = 1
             img = None
