@@ -1,2 +1,1 @@
-# LoliChanToolkitV2
- 
+# LoliChanToolkit
