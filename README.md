@@ -42,5 +42,33 @@ An initial build can be done after downloading the directory using `python main.
 
 The default command can be done using `python main.py merge_tool`. This merges list of images from database folder to the local folder such that max height is about 40000 (default)
 
+For example, given the below input
+
+```python
+database
+    series_title
+        chapter_title
+            pic_001
+            pic_002
+        chapter_title
+            pic_001
+    series_title
+        ...
+```
+
+We get output directory in local directory
+
+```python
+local
+    series_title
+        chapter_title
+            compic_001
+            ...
+        chapter_title
+            compic_001
+    series_title
+        ...
+```
+
 
 ## Done by LoliChan6304 :D
