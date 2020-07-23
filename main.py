@@ -7,8 +7,8 @@ import numpy as np
 from PIL import Image
 import cv2
 
-import lib.osfunc as osfunc
-import lib.tool as tool
+import tool_lib.osfunc as osfunc
+import tool_lib.tool as tool
 
 def build(
         database='./database',
