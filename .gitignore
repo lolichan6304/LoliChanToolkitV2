@@ -131,4 +131,5 @@ dmypy.json
 # Folders
 database/*
 local/*
+split_tool/*
 .vscode/

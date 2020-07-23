@@ -11,13 +11,12 @@ import tool_lib.osfunc as osfunc
 import tool_lib.tool as tool
 
 def build(
-        database='./database',
-        compiled='./local',
         **kwargs
     ):
-    assert os.path.isdir(database) and os.path.isdir(compiled), "invalid directory provided"
+    to_build = ['./database', './local', './split_tool', './split_tool/to_split', './split_tool/output']
     print("building directory structure")
-    osfunc.create_directory_structure(database, compiled)
+    for i in to_build:
+        osfunc.create_directory_structure(i)
 
 def merge_tool(
         database='./database',
@@ -30,6 +29,18 @@ def merge_tool(
     osfunc.copy_directory_structure(fro=database, to=compiled)
     print("begin merging")
     tool.merge_tool(database, compiled, MAX)
+
+def split_tool(
+        database='./split_tool/to_split',
+        compiled='./split_tool/output',
+        MAX=10000,
+        **kwargs
+    ):
+    assert os.path.isdir(database) and os.path.isdir(compiled), "invalid directory provided"
+    print("split tool initialized")
+    osfunc.copy_directory_structure(fro=database, to=compiled)
+    print("begin splitting")
+    tool.split_tool(database, compiled, MAX)
 
 
 def execute_cmdline(argv):
@@ -47,15 +58,18 @@ def execute_cmdline(argv):
         return subparsers.add_parser(cmd, description=desc, help=desc, epilog=epilog)
 
     p = add_command('build', 'build and prepare directory', '')
-    
-    p.add_argument('--database', help='directory of database',              default='./database')
-    p.add_argument('--compiled', help='directory of compiled folder',       default='./local')
 
     p = add_command('merge_tool', 'merge toons from database to compiled folder', '')
     
     p.add_argument('--database', help='directory of database',              default='./database')
     p.add_argument('--compiled', help='directory of compiled folder',       default='./local')
     p.add_argument('--MAX',      help='max height of webtoon to be merged', default=40000,        type=int)
+
+    p = add_command('split_tool', 'split toons from database to compiled folder', '')
+    
+    p.add_argument('--database', help='directory of database',              default='./split_tool/to_split')
+    p.add_argument('--compiled', help='directory of compiled folder',       default='./split_tool/output')
+    p.add_argument('--MAX',      help='max height of webtoon to be merged', default=10000,        type=int)
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
     func = globals()[args.command]
