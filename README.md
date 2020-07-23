@@ -42,6 +42,8 @@ An initial build can be done after downloading the directory using `python main.
 
 The default command can be done using `python main.py merge_tool`. This merges list of images from database folder to the local folder such that max height is about 40000 (default)
 
+To start, place the folders you want to merge in the `./database` folder based on the directory listed above. The output will be merged images in the `./local` folder.
+
 For example, given the below input
 
 ```python
@@ -60,6 +62,40 @@ We get output directory in local directory
 
 ```python
 local
+    series_title
+        chapter_title
+            compic_001
+            ...
+        chapter_title
+            compic_001
+    series_title
+        ...
+```
+
+### Split Tool
+
+The default command can be done using `python main.py split_tool`. This splits list of images from folder to the output folder such that max height is cut at 10000 (default)
+
+To start, place the folders you want to split in the `./split_tool/to_split` folder based on the directory listed above. The output will be split images in the `./split_tool/output` folder.
+
+For example, given the below input
+
+```python
+to_split
+    series_title
+        chapter_title
+            pic_001
+            pic_002
+        chapter_title
+            pic_001
+    series_title
+        ...
+```
+
+We get output directory in output directory
+
+```python
+output
     series_title
         chapter_title
             compic_001
