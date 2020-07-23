@@ -25,7 +25,7 @@ def merge_tool(database, compiled, MAX = 40000):
                 for i in list_pages:
                     if img is None:
                         img = np.asarray(Image.open(os.path.join(database, folder, chapter, i)).convert("RGB"))
-                        if temp.shape[1] not in accepted_width:
+                        if img.shape[1] not in accepted_width:
                             img = None
                     else:
                         # load image first
