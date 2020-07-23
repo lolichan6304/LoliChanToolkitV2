@@ -40,14 +40,14 @@ def merge_tool(database, compiled, MAX = 40000):
                         else:
                             # here we hit max length
                             # save the current image
-                            to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.png".format(page)))
+                            to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.jpg".format(page)))
                             page += 1
                             # reset length of image
                             if temp.shape[1] not in accepted_width:
                                 img = None
                             else:
                                 img = temp
-                to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.png".format(page)))
+                to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.jpg".format(page)))
                 print("merge complete! number of pages merged to: {}".format(page))
 
 def split_tool(database, compiled, MAX = 10000):
@@ -71,9 +71,9 @@ def split_tool(database, compiled, MAX = 10000):
                     img = np.asarray(Image.open(os.path.join(database, folder, chapter, i)).convert("RGB"))
                     curr = 0
                     while img.shape[0] - curr*MAX > MAX: # this is the last one
-                        to_save = Image.fromarray(img[curr*MAX:(curr+1)*MAX,:]).save(os.path.join(compiled, folder, chapter, "splpic_{:03d}.png".format(page)))
+                        to_save = Image.fromarray(img[curr*MAX:(curr+1)*MAX,:]).save(os.path.join(compiled, folder, chapter, "splpic_{:03d}.jpg".format(page)))
                         curr += 1
                         page += 1
-                    to_save = Image.fromarray(img[curr*MAX:,:]).save(os.path.join(compiled, folder, chapter, "splpic_{:03d}.png".format(page)))
+                    to_save = Image.fromarray(img[curr*MAX:,:]).save(os.path.join(compiled, folder, chapter, "splpic_{:03d}.jpg".format(page)))
                     page += 1
                 print("split complete! number of pages split to: {}".format(page))
