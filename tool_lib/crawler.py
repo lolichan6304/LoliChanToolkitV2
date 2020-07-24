@@ -15,18 +15,24 @@ def amcomic_crawler(chap_code='/chapter/9698', code_dir='./codes'):
     title = tree.xpath('//head/title/text()')[0].split('-')[0]
     dst = '{}.txt'.format(title)
     print("series title: {}".format(title))
-    # check if title is already scraped
-    if os.path.exists(os.path.join(code_dir,dst)):
-        print("file already exists!")
-    else:
-        # abstract chapters
-        chapters = tree.xpath('//li[@class="listItem"]/a')
-        print("found {} chapters".format(len(chapters)))
+    # abstract chapters
+    chapters = tree.xpath('//li[@class="listItem"]/a')
+    print("found {} chapters".format(len(chapters)))
 
+    codes = []
+    if not os.path.exists(os.path.join(code_dir,dst)):
         result = []
         for chapter in chapters:
             new_url = GLOBAL_AMCOMIC + chapter.attrib['href']
             result.append(new_url)
+            codes.append(int(chapter.attrib['href'].split('/')[-1]))
 
         with open(os.path.join(code_dir,dst), 'w') as filehandle:
             filehandle.writelines("%s\n" % chap for chap in result)
+    else:
+        for chapter in chapters:
+            codes.append(int(chapter.attrib['href'].split('/')[-1]))
+        print("file already exists!")
+
+    return codes
+        
