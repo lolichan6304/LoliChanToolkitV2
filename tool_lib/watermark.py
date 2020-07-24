@@ -7,11 +7,39 @@ def rgb_to_hsv(im):
 def hsv_to_rgb(im):
     return cv2.cvtColor(im, cv2.COLOR_HSV2BGR)
 
+"""image = "pic_003.jpg"
+
+edges = cv2.imread("canny_fix.jpg", 0)
+img = cv2.imread(image)
+for i in range(len(img)):
+    for j in range(len(img[i])):
+        if edges[i][j] <= 50 and edges[i][j] != 0:
+            print(edges[i][j])
+            edges[i][j] = 0
+        elif edges[i][j] >= 200 and edges[i][j] != 255:
+            print(edges[i][j])
+            edges[i][j] = 255
+cv2.imwrite("canny_fix.jpg", edges)
+edges = cv2.imread("canny_fix.jpg", 0)
+for i in range(len(img)):
+    for j in range(len(img[i])):
+        if edges[i][j] == 0:
+            img[i,j,:] = 255*np.ones_like(img[i,j,:])
+cv2.imwrite("canny_color.jpg", img)"""
+
 image = "pic_{:03d}.jpg"
-edges = cv2.imread("canny.jpg", 0)
+edges = cv2.imread("canny_fix.jpg", 0)
+edges_2 = cv2.imread("canny_color.jpg")*1.
+# reverse the alpha
+alpha = 0.3
+mask = 255*np.ones_like(edges_2)
+true_ = (edges_2 - (1-alpha)*mask)/alpha
 for i in range(1,35):
     io = cv2.imread(image.format(i))
-    result = cv2.inpaint(io, edges, 10, cv2.INPAINT_TELEA)
+    result = (io - alpha*true_)/(1-alpha)
+    #mask = 255*np.ones_like(edges_2)
+    #result = (io + (mask - edges_2))
+    #result = cv2.inpaint(io, edges, 50, cv2.INPAINT_TELEA)
     cv2.imwrite("result_{:03d}.jpg".format(i), result)
 
 """img = cv2.imread(image, 0)
