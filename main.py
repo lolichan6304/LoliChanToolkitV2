@@ -7,13 +7,17 @@ import numpy as np
 from PIL import Image
 import cv2
 
+import lxml
+import requests
+
 import tool_lib.osfunc as osfunc
 import tool_lib.tool as tool
+import tool_lib.crawler as crawler
 
 def build(
         **kwargs
     ):
-    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output']
+    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes']
     print("building directory structure")
     for i in to_build:
         osfunc.create_directory_structure(i)
@@ -41,6 +45,15 @@ def split_tool(
     osfunc.copy_directory_structure(fro=database, to=compiled)
     print("begin splitting")
     tool.split_tool(database, compiled, MAX)
+
+def amcomic_crawler(
+    code=9698,
+    code_dir='./codes',
+    **kwargs
+    ):
+    chap = '/chapter/{}'.format(code)
+    crawler.amcomic_crawler(chap, code_dir)
+
 
 
 def execute_cmdline(argv):
@@ -70,6 +83,11 @@ def execute_cmdline(argv):
     p.add_argument('--database', help='directory of database',              default='./temp_folder/input')
     p.add_argument('--compiled', help='directory of compiled folder',       default='./temp_folder/output')
     p.add_argument('--MAX',      help='max height of webtoon to be merged', default=10000,        type=int)
+
+    p = add_command('amcomic_crawler', 'crawler for amcomic that pulls chapter url', '')
+
+    p.add_argument('--code',     help='chapter code to populate from',      default=9698,         type=int)
+    p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
     func = globals()[args.command]
