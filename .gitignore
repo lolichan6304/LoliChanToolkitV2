@@ -131,6 +131,6 @@ dmypy.json
 # Folders
 database/*
 local/*
-raws/*
 temp_folder/*
+raws/*
 .vscode/
