@@ -30,4 +30,3 @@ def amcomic_crawler(chap_code='/chapter/9698', code_dir='./codes'):
 
         with open(os.path.join(code_dir,dst), 'w') as filehandle:
             filehandle.writelines("%s\n" % chap for chap in result)
-            #filehandle.write("|".join(result))
