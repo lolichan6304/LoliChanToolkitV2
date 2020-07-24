@@ -5,7 +5,7 @@ from PIL import Image
 def merge_tool(database, compiled, MAX = 40000):
     # sanity check
     MAX = int(MAX)
-    accepted_width = [720, 900]
+    accepted_width = [688, 720, 900]
 
     for folder in sorted(os.listdir(database)):
         for chapter in os.listdir(os.path.join(database,folder)):
