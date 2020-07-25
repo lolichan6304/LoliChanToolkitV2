@@ -54,7 +54,6 @@ def amcomic_crawler(
     **kwargs
     ):
     chap = '/chapter/{}'.format(code)
-    chap = '/chapter/{}'.format('17154-10580308')
     res = crawler.amcomic_crawler(chap, code_dir)
 
 def amcomic_hunt(
