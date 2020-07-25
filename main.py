@@ -3,6 +3,8 @@ import sys
 import os
 import glob
 import time
+import pytesseract
+from pytesseract import Output
 
 import numpy as np
 from PIL import Image
@@ -14,6 +16,7 @@ import requests
 import tool_lib.osfunc as osfunc
 import tool_lib.tool as tool
 import tool_lib.crawler as crawler
+import tool_lib.tesseract as tesseract
 
 def build(
         **kwargs
@@ -46,6 +49,32 @@ def split_tool(
     osfunc.copy_directory_structure(fro=database, to=compiled)
     print("begin splitting")
     tool.split_tool(database, compiled, MAX)
+
+def crop_tool(
+        database='./temp_folder/input',
+        compiled='./temp_folder/output',
+        WIDTH=720,
+        **kwargs
+    ):
+    assert os.path.isdir(database) and os.path.isdir(compiled), "invalid directory provided"
+    print("split tool initialized")
+    osfunc.copy_directory_structure(fro=database, to=compiled)
+    print("begin cropping")
+    tool.crop_tool(database, compiled, WIDTH)
+
+## OCR
+def ocr_tool(
+        database='./temp_folder/input',
+        compiled='./temp_folder/output',
+        lang='kor',
+        **kwargs
+    ):
+    assert os.path.isdir(database) and os.path.isdir(compiled), "invalid directory provided"
+    print("ocr tool initialized")
+    osfunc.copy_directory_structure(fro=database, to=compiled)
+    print("begin ocr")
+    tesseract.ocr(database, compiled, lang)
+
 
 ## amcomic crawlers
 def amcomic_crawler(
@@ -104,6 +133,20 @@ def execute_cmdline(argv):
     p.add_argument('--compiled', help='directory of compiled folder',       default='./temp_folder/output')
     p.add_argument('--MAX',      help='max height of webtoon to be merged', default=10000,        type=int)
 
+    p = add_command('crop_tool', 'crop toons from database to compiled folder', '')
+
+    p.add_argument('--database', help='directory of database',              default='./temp_folder/input')
+    p.add_argument('--compiled', help='directory of compiled folder',       default='./temp_folder/output')
+    p.add_argument('--WIDTH',    help='max height of webtoon to be merged', default=720,        type=int)
+
+    # ocr tesseract
+    p = add_command('ocr_tool', 'ocr for toons from database to compiled folder', '')
+
+    p.add_argument('--database', help='directory of database',              default='./temp_folder/input')
+    p.add_argument('--compiled', help='directory of compiled folder',       default='./temp_folder/output')
+    p.add_argument('--lang',     help='language to detect',                 default='kor')
+
+    # amcomic tools
     p = add_command('amcomic_crawler', 'crawler for amcomic that pulls chapter url', '')
 
     p.add_argument('--code',     help='chapter code to populate from',      default=9698,         type=int)
