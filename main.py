@@ -2,6 +2,7 @@ import argparse
 import sys
 import os
 import glob
+import time
 
 import numpy as np
 from PIL import Image
@@ -46,13 +47,36 @@ def split_tool(
     print("begin splitting")
     tool.split_tool(database, compiled, MAX)
 
+## amcomic crawlers
 def amcomic_crawler(
     code=9698,
     code_dir='./codes',
     **kwargs
     ):
     chap = '/chapter/{}'.format(code)
-    crawler.amcomic_crawler(chap, code_dir)
+    res = crawler.amcomic_crawler(chap, code_dir)
+
+def amcomic_hunt(
+    fro=9000,
+    to=9500,
+    code_dir='./codes',
+    **kwargs
+    ):
+    to_hunt = list(range(fro,to))
+    while (len(to_hunt)>0):
+        print('number of codes left... {}'.format(len(to_hunt)))
+        curr = to_hunt.pop()
+        chap = '/chapter/{}'.format(curr)
+        res = crawler.amcomic_crawler(chap, code_dir)
+        for i in res:
+            if i in to_hunt:
+                to_hunt.remove(i)
+
+        slp = np.random.uniform(2,5)
+        print("sleeping for {:.4f} secs...".format(slp))
+        time.sleep(slp)
+        
+    
 
 
 
@@ -87,6 +111,12 @@ def execute_cmdline(argv):
     p = add_command('amcomic_crawler', 'crawler for amcomic that pulls chapter url', '')
 
     p.add_argument('--code',     help='chapter code to populate from',      default=9698,         type=int)
+    p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
+
+    p = add_command('amcomic_hunt', 'crawler for amcomic that hunts for chapter url', '')
+
+    p.add_argument('--fro',      help='chapter code to populate from',      default=13000,         type=int)
+    p.add_argument('--to',       help='chapter code to populate from',      default=17000,         type=int)
     p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
