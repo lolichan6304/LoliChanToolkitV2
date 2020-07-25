@@ -8,6 +8,8 @@ The following packages are required for using the above library
 numpy
 PIL
 cv2
+requests
+lxml
 ```
 
 ## Database Folder Structure
