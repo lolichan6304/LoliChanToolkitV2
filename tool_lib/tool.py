@@ -5,7 +5,7 @@ from PIL import Image
 def merge_tool(database, compiled, MAX = 40000):
     # sanity check
     MAX = int(MAX)
-    accepted_width = [688, 720, 900]
+    accepted_width = [688, 720, 900, 1000]
 
     for folder in sorted(os.listdir(database)):
         for chapter in os.listdir(os.path.join(database,folder)):
@@ -47,7 +47,8 @@ def merge_tool(database, compiled, MAX = 40000):
                                 img = None
                             else:
                                 img = temp
-                to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.jpg".format(page)))
+                if img is not None:
+                    to_save = Image.fromarray(img).save(os.path.join(compiled, folder, chapter, "compic_{:03d}.jpg".format(page)))
                 print("merge complete! number of pages merged to: {}".format(page))
 
 def split_tool(database, compiled, MAX = 10000):

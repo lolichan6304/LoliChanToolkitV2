@@ -4,6 +4,12 @@ import os
 
 GLOBAL_AMCOMIC = 'https://www.amcomic.com'
 
+def filter_text(text):
+    for ch in ['\\','/','?','.','!','$']:
+        if ch in text:
+            text = text.replace(ch,"")
+    return text
+
 def amcomic_crawler(chap_code='/chapter/9698', code_dir='./codes'):
     url = GLOBAL_AMCOMIC + chap_code
     print("populating from: {}".format(url))
@@ -13,8 +19,8 @@ def amcomic_crawler(chap_code='/chapter/9698', code_dir='./codes'):
 
     # get title
     title = tree.xpath('//head/title/text()')[0].split('-')[0]
-    dst = '{}.txt'.format(title)
-    print("series title: {}".format(title))
+    dst = '{}.txt'.format(filter_text(title))
+    print("series title: {}".format(filter_text(title)))
     # abstract chapters
     chapters = tree.xpath('//li[@class="listItem"]/a')
     print("found {} chapters".format(len(chapters)))
