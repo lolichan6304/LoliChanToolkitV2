@@ -93,13 +93,13 @@ def execute_cmdline(argv):
     p = add_command('build', 'build and prepare directory', '')
 
     p = add_command('merge_tool', 'merge toons from database to compiled folder', '')
-    
+
     p.add_argument('--database', help='directory of database',              default='./database')
     p.add_argument('--compiled', help='directory of compiled folder',       default='./local')
     p.add_argument('--MAX',      help='max height of webtoon to be merged', default=40000,        type=int)
 
     p = add_command('split_tool', 'split toons from database to compiled folder', '')
-    
+
     p.add_argument('--database', help='directory of database',              default='./temp_folder/input')
     p.add_argument('--compiled', help='directory of compiled folder',       default='./temp_folder/output')
     p.add_argument('--MAX',      help='max height of webtoon to be merged', default=10000,        type=int)
