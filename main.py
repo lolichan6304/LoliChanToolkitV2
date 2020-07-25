@@ -111,8 +111,8 @@ def execute_cmdline(argv):
 
     p = add_command('amcomic_hunt', 'crawler for amcomic that hunts for chapter url', '')
 
-    p.add_argument('--fro',      help='chapter code to populate from',      default=13000,         type=int)
-    p.add_argument('--to',       help='chapter code to populate from',      default=17000,         type=int)
+    p.add_argument('--fro',      help='chapter code to populate from',      default=1,         type=int)
+    p.add_argument('--to',       help='chapter code to populate from',      default=17200,         type=int)
     p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
