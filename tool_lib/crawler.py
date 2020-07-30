@@ -100,7 +100,7 @@ def amcomic_downloader(code_dir='./check_updates', save_dir='./amcomic'):
             for index in range(len(result)):
                 download_from_amcomic(result[index], dst)
             # save newfile
-            with open(codes, 'w') as filehandle:
+            with open(os.path.join(code_dir, codes), 'w') as filehandle:
                 filehandle.writelines("%s\n" % chap for chap in result)
 
         

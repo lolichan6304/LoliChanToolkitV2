@@ -10,6 +10,7 @@ PIL
 cv2
 requests
 lxml
+urllib
 ```
 
 ## Database Folder Structure
