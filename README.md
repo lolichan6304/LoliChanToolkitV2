@@ -4,13 +4,14 @@
 
 The following packages are required for using the above library
 
+You may install using `pip install -r requirements.txt`
+
 ```python
 numpy
 PIL
 cv2
 requests
 lxml
-urllib
 ```
 
 ## Database Folder Structure
