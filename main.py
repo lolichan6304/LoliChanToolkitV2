@@ -21,7 +21,7 @@ import tool_lib.tesseract as tesseract
 def build(
         **kwargs
     ):
-    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes']
+    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes', './check_updates', './amcomic']
     print("building directory structure")
     for i in to_build:
         osfunc.create_directory_structure(i)
