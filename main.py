@@ -21,7 +21,7 @@ import tool_lib.tesseract as tesseract
 def build(
         **kwargs
     ):
-    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes']
+    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes', './check_updates', './amcomic']
     print("building directory structure")
     for i in to_build:
         osfunc.create_directory_structure(i)
@@ -83,7 +83,7 @@ def amcomic_crawler(
     **kwargs
     ):
     chap = '/chapter/{}'.format(code)
-    res = crawler.amcomic_crawler(chap, code_dir)
+    res, _ = crawler.amcomic_crawler(chap, code_dir)
 
 def amcomic_hunt(
     fro=9000,
@@ -96,7 +96,7 @@ def amcomic_hunt(
         print('number of codes left... {}'.format(len(to_hunt)))
         curr = to_hunt.pop()
         chap = '/chapter/{}'.format(curr)
-        res = crawler.amcomic_crawler(chap, code_dir)
+        res, _ = crawler.amcomic_crawler(chap, code_dir)
         for i in res:
             if i in to_hunt:
                 to_hunt.remove(i)
@@ -104,6 +104,9 @@ def amcomic_hunt(
         slp = np.random.uniform(2,5)
         print("sleeping for {:.4f} secs...".format(slp))
         time.sleep(slp)
+
+def amcomic_downloader():
+    crawler.amcomic_downloader()
 
 def execute_cmdline(argv):
     prog = argv[0]
@@ -157,6 +160,8 @@ def execute_cmdline(argv):
     p.add_argument('--fro',      help='chapter code to populate from',      default=1,         type=int)
     p.add_argument('--to',       help='chapter code to populate from',      default=17200,         type=int)
     p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
+
+    p = add_command('amcomic_downloader', 'crawler for amcomic that downloads and updates for series', '')
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
     func = globals()[args.command]
