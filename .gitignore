@@ -135,6 +135,6 @@ temp_folder/*
 codes/*
 raws/*
 nonfunctional/*
-check_updates/*
+#check_updates/*
 amcomic/*
 .vscode/

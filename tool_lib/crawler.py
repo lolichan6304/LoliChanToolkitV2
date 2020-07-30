@@ -56,7 +56,7 @@ def download_from_amcomic(url, save_dir):
     # get title
     title = tree.xpath('//head/title/text()')[0]
     print("title: {}".format(title))
-    save_to = os.path.join(save_dir, title)
+    save_to = os.path.join(save_dir, filter_text(title))
     if not os.path.exists(save_to): # file has not been processed before
         print("folder not found in {}, creating folder...".format(save_to))
         os.mkdir(save_to)
@@ -81,7 +81,8 @@ def amcomic_downloader(code_dir='./check_updates', save_dir='./amcomic'):
     
     for codes in os.listdir(code_dir):
         print("checking {}".format(codes))
-        urls = [l.strip('\n\r') for l in open(os.path.join(code_dir,codes), 'r').readlines()]
+        with open(os.path.join(code_dir,codes), 'r') as filehandle:
+            urls = [l.strip('\n\r') for l in filehandle.readlines()]
         print("number of chapters: {}".format(len(urls)))
 
         dst = os.path.join(save_dir, codes[:-4])
@@ -96,5 +97,8 @@ def amcomic_downloader(code_dir='./check_updates', save_dir='./amcomic'):
         if len(result) > len(folder): # here we need to download the files
             for index in range(len(folder), len(result)):
                 download_from_amcomic(result[index], dst)
+            # save newfile
+            with open(codes, 'w') as filehandle:
+                filehandle.writelines("%s\n" % chap for chap in result)
 
         
