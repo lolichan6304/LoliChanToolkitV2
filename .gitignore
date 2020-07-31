@@ -137,4 +137,5 @@ raws/*
 nonfunctional/*
 #check_updates/*
 amcomic/*
+amcomic_local/*
 .vscode/
