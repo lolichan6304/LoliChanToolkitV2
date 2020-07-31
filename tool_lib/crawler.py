@@ -4,6 +4,7 @@ import os
 import numpy as np
 import time
 import urllib.request as urllib_request
+import urllib.error as urllib_error
 
 GLOBAL_AMCOMIC = 'https://www.amcomic.com'
 
@@ -58,15 +59,18 @@ def download_from_amcomic(url, save_dir):
     print("title: {}".format(title))
     save_to = os.path.join(save_dir, filter_text(title))
     if not os.path.exists(save_to): # file has not been processed before
-        print("folder not found in {}, creating folder...".format(save_to))
-        os.mkdir(save_to)
         images = tree.xpath('//div[@class="comiclist"]/div/img')
         print("found {} pages".format(len(images)))
         if len(images) > 4:
+            print("folder not found in {}, creating folder...".format(save_to))
+            os.mkdir(save_to)
             print("downloading...")
             for i, page in enumerate(images):
                 p_url = page.attrib['src']
-                urllib_request.urlretrieve(p_url, os.path.join(save_to, "pic_{:03d}.jpg".format(i)))
+                try:
+                    urllib_request.urlretrieve(p_url, os.path.join(save_to, "pic_{:03d}.jpg".format(i)))
+                except urllib_error.HTTPError:
+                    pass
     else:
         print("folder is found in {}. please delete the folder if you are interested to download it".format(save_to))
 
@@ -95,9 +99,8 @@ def amcomic_downloader(code_dir='./check_updates', save_dir='./amcomic'):
         print("found {} folders".format(len(folder)))
         code = '/chapter/{}'.format(urls[0].split('/')[-1])
         _, result = amcomic_crawler(code, '', False)
-        #print("currently there are {} chapters".format(len(result)))
         if len(result) > len(folder): # here we need to download the files
-            for index in range(len(result)):
+            for index in range(len(folder), len(result)):
                 download_from_amcomic(result[index], dst)
             # save newfile
             with open(os.path.join(code_dir, codes), 'w') as filehandle:
