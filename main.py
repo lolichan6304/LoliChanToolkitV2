@@ -21,7 +21,7 @@ import tool_lib.tesseract as tesseract
 def build(
         **kwargs
     ):
-    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes', './check_updates', './amcomic']
+    to_build = ['./database', './local', './temp_folder', './temp_folder/input', './temp_folder/output', './codes', './check_updates', './amcomic', './mymhh']
     print("building directory structure")
     for i in to_build:
         osfunc.create_directory_structure(i)
@@ -108,6 +108,9 @@ def amcomic_hunt(
 def amcomic_downloader():
     crawler.amcomic_downloader()
 
+def mymhh_downloader():
+    crawler.mymhh_downloader()
+
 def execute_cmdline(argv):
     prog = argv[0]
     parser = argparse.ArgumentParser(
@@ -162,6 +165,9 @@ def execute_cmdline(argv):
     p.add_argument('--code_dir', help='directory of compiled folder',       default='./codes')
 
     p = add_command('amcomic_downloader', 'crawler for amcomic that downloads and updates for series', '')
+
+    # mymhh tools
+    p = add_command('mymhh_downloader', 'crawler for mymhh that downloads and updates for series', '')
 
     args = parser.parse_args(argv[1:] if len(argv) > 1 else ['h'])
     func = globals()[args.command]

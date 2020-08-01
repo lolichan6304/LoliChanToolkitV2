@@ -138,4 +138,6 @@ nonfunctional/*
 #check_updates/*
 amcomic/*
 amcomic_local/*
+mymhh/*
+!mymhh/download_list.json
 .vscode/
