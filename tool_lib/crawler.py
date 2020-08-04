@@ -13,7 +13,7 @@ GLOBAL_AMCOMIC = 'https://www.amcomic.com'
 android_header = "Mozilla/5.0 (Linux; Android 7.0; SM-G920F Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36"
 
 def filter_text(text):
-    for ch in ['\\','/','?','.','!','$']:
+    for ch in ['\\','/','?','.','!','$','<','>']:
         if ch in text:
             text = text.replace(ch,"")
     return text
